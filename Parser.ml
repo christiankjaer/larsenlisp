@@ -5,6 +5,7 @@ let rec parse_expr = parser
     | [< 'Lexer.String s >] -> Constant (String s)
     | [< 'Lexer.Character c >] -> Constant (Character c)
     | [< 'Lexer.Lp; e=parse_special_form; 'Lexer.Rp >] -> e
+    | [< 'Lexer.Identifier s >] -> Variable s
         
 and parse_special_form = parser
     | [< 'Lexer.Identifier "if"; exps=parse_exps [] >] -> 
@@ -14,6 +15,8 @@ and parse_special_form = parser
         | _ -> raise (Stream.Error "2 or 3 exps expected"))
     | [< 'Lexer.Identifier "lambda"; formals=parse_formals; exps=parse_exps [] >] ->
              Lambda (formals, [], exps)
+    | [< e=parse_expr; exps=parse_exps [] >] ->
+            Application (e, exps)
 
 and parse_exps acc = parser
     | [< e=parse_expr; stream >] -> parse_exps (e::acc) stream
