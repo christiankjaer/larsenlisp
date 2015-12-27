@@ -48,18 +48,3 @@ and lex_identifier buffer = parser
             lex_identifier buffer stream
     | [< stream >] ->
             [< 'Identifier (Buffer.contents buffer); lex stream >]
-
-let rec print_tokens tstream =
-    print_newline ();
-    match Stream.peek tstream with
-    | Some (Number n) -> print_int n; Stream.junk tstream; print_tokens tstream
-    | Some (String s) -> print_string s; Stream.junk tstream; print_tokens tstream
-    | Some (Character c) -> print_char c; Stream.junk tstream; print_tokens tstream
-    | Some (Identifier s) -> print_string s; Stream.junk tstream; print_tokens tstream
-    | Some Lp -> print_string "("; Stream.junk tstream; print_tokens tstream
-    | Some Rp -> print_string ")"; Stream.junk tstream; print_tokens tstream
-    | None -> ()
-
-let main () =
-    let l = lex (Stream.of_string Sys.argv.(1)) in
-    print_tokens l;;

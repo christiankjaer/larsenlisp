@@ -3,8 +3,10 @@ let rec print_expr tree =
     match tree with
     | Ast.Constant c -> print_const c
     | Ast.Variable s -> s
-    | Ast.If (e1, e2) -> "(if " ^ print_expr e1 ^ " " ^ print_expr e2 ^ ")"
-    | Ast.IfElse (e1, e2, e3) -> "(if " ^ print_expr e1 ^ " " ^ print_expr e2 ^ " " ^ print_expr e3 ^ ")"
+    | Ast.Lambda ([f], defns, e::exps) -> 
+            "(lambda " ^ f ^ " " ^ print_expr e ^ ")"
+    | Ast.If (e1, e2, None) -> "(if " ^ print_expr e1 ^ " " ^ print_expr e2 ^ ")"
+    | Ast.If (e1, e2, Some e3) -> "(if " ^ print_expr e1 ^ " " ^ print_expr e2 ^ " " ^ print_expr e3 ^ ")"
 and print_const c =
     match c with
     | Ast.Number n -> string_of_int n

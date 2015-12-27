@@ -2,8 +2,7 @@ type expr =
     | Constant of const
     | Variable of string
     | Lambda of string list * defn list * expr list
-    | If of expr * expr
-    | IfElse of expr * expr * expr
+    | If of expr * expr * expr option
     | Application of expr * expr list
 
 and const =
