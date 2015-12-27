@@ -18,5 +18,5 @@ and print_const c =
     | Ast.Number n -> string_of_int n
     | Ast.Boolean true -> "true"
     | Ast.Boolean false -> "false"
-    | Ast.Character c -> "#'" ^ (String.make 1 c) ^ "'"
+    | Ast.Character c -> "#" ^ (String.make 1 c)
     | Ast.String s -> "\"" ^ s ^ "\""

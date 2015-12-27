@@ -10,8 +10,8 @@ let rec parse_expr = parser
 and parse_special_form = parser
     | [< 'Lexer.Identifier "if"; exps=parse_exps [] >] -> 
         (match exps with
-        | [e1;e2] -> If (e2, e1, None)
-        | [e1;e2;e3] -> If (e3, e2, Some e1)
+        | [e1;e2] -> If (e1, e2, None)
+        | [e1;e2;e3] -> If (e1, e2, Some e3)
         | _ -> raise (Stream.Error "2 or 3 exps expected"))
     | [< 'Lexer.Identifier "lambda"; formals=parse_formals; exps=parse_exps [] >] ->
              Lambda (formals, [], exps)
@@ -31,9 +31,13 @@ and parse_formals = parser
             parse_f [] stream
     | [< >] -> []
 
-let main () =
+let parse_defn = parser
+    | [< 'Lexer.Lp; 'Lexer.Identifier "define"; 'Lexer.Identifier v; e=parse_expr; 'Lexer.Rp >] ->
+            Define (v, e)
+
+(* let main () =
     let s = Sys.argv.(1) in
     let l = Lexer.lex (Stream.of_string s) in
     print_string (Pretty.print_expr (parse_expr l));;
 
-main () ;;
+main () ;; *)
