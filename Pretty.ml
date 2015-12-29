@@ -1,6 +1,6 @@
-open Ast
 let rec print_expr tree =
     match tree with
+    | Ast.Empty -> "()"
     | Ast.Constant c -> print_const c
     | Ast.Variable s -> s
     | Ast.Lambda (fs, defns, exps) -> 

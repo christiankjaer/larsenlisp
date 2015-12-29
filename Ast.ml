@@ -1,4 +1,5 @@
 type expr =
+    | Empty
     | Constant of const
     | Variable of string
     | Lambda of string list * defn list * expr list
