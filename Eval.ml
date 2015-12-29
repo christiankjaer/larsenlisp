@@ -1,5 +1,4 @@
 module VTable = Map.Make(String)
-let empty_vtable = 
 let rec eval_exp vtable exp =
     match exp with
     | Ast.Application (f, exps) ->
@@ -8,7 +7,6 @@ let rec eval_exp vtable exp =
         (match f' with
         | Ast.Lambda (vars, defns, exprs) ->
             let vtab = List.fold_left2 (fun vt k v -> VTable.add k v vt) vtable vars exps' in
-            VTable.iter (fun k v -> print_string (k^ "=>" ^ (Pretty.print_expr v))) vtab;
             eval_exp vtab (List.hd exprs)
         | _ -> Ast.Empty)
     | Ast.If (e1, e2, None) ->
