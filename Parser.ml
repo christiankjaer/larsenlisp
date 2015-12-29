@@ -3,6 +3,8 @@ let rec parse_expr = parser
     | [< 'Lexer.String s >] -> Ast.Constant (Ast.String s)
     | [< 'Lexer.Character c >] -> Ast.Constant (Ast.Character c)
     | [< 'Lexer.Lp; e=parse_special_form; 'Lexer.Rp >] -> e
+    | [< 'Lexer.Identifier "true" >] -> Ast.Constant (Ast.Boolean true)
+    | [< 'Lexer.Identifier "false" >] -> Ast.Constant (Ast.Boolean false)
     | [< 'Lexer.Identifier s >] -> Ast.Variable s
         
 and parse_special_form = parser
